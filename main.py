@@ -14,13 +14,17 @@ def send_message_now(numeros, mensaje):
 def get_list_excel(doc_name, sheet):
     lista = pd.read_excel(doc_name, sheet_name=sheet)
     lista['Lista'] = lista['Lista'].str.replace("'","")
-    lista = lista.iloc[33:]
+    #ista= lista[lista['Lista'].str.startswith('+51')]
+
+    indices_peru = lista[lista['Lista'].str.startswith('+51')].index
+    lista = lista.drop(indices_peru.tolist(), axis=0)
+
     lista = lista['Lista'].unique()
     lista = lista.tolist()
     return lista
     
 if __name__=='__main__':
-    numbers = ['+51965745585'] #'+51992573015''+51955459221','+51947517417','+51992573015'
+    numbers = ['+51123123456'] #'+51992573015''+51955459221','+51947517417','+51992573015'
     numbers_2 = ['+14155238886']
     message = '''
 Hola 🖐
@@ -29,34 +33,42 @@ Te saluda Thelmo de Orange Team
 
 Te escribo debido a tu inscripción al DESAFÍO OBJETIVOS PODEROSOS 2022
 
-🎯En unos minutos iniciamos con el Webinar: Como crear objetivos poderosos para el 2022
+🎯Preguntas frecuentes:
 
-⏰ 7 PM (Hora UTC -5)
 
-Ingresa 👉 https://bit.ly/desafio_objetivo1
+⁉¿Puedo participar si no asistí a la primera sesión en vivo?
 
-Grupo de soporte 👉https://bit.ly/soporte_desafio_whatsapp
+Si , puedes ver la repetición aquí: https://bit.ly/desafio_webinar1
 
-Siguiente etapa de mañana 👉https://bit.ly/etapa2_desafio
+⁉¿Dónde puedo ver las clases asincrónicas y dejar mi proyecto para el concurso?
 
+Puedes acceder en el siguiente enlace : https://bit.ly/etapa2_desafio
+
+Recuerda que la entrega de proyectos es hasta mañana(25 nov) 11:59 AM Hora Perú (UTC- 5)
+
+⁉¿Cómo ingreso a la sesión de feedback en vivo?
+
+Es el mismo enlace de la sesión 1 , te dejo el link aquí : https://bit.ly/desafio_objetivo1
+Nos vemos en vivo el 25 nov - 7 PM horas Perú (UTC - 5)
+
+Que tengas un excelente día.
 Saludos.
-    
 '''
     twilio = '+14155238886'
     mensaje_2 = 'join pan-dozen'
 
 
-    lista = get_list_excel('Envio de zoom - whatsapp.xlsx', sheet='normalizado')
+    lista = get_list_excel('envío del 24 de nov.xlsx', sheet='Hoja1')
     
     for i in lista:
         try:
             kt.sendwhatmsg_instantly(i, message, tab_close=False, wait_time=20)
             sleep(1)
-            pyautogui.moveTo(x=1538,y=941)
+            pyautogui.moveTo(x=1108,y=934)
             pyautogui.leftClick()
             pyautogui.press('enter')
             sleep(3)
-            pyautogui.moveTo(x=1507,y=24)
+            pyautogui.moveTo(x=712,y=46)
             pyautogui.leftClick()
 
             print('Mensaje enviado')
